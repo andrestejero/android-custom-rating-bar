@@ -4,16 +4,21 @@ package com.andrestejero.customratingbar;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 public class CustomRatingBar extends FrameLayout {
+
+    private static final String LOG_TAG = CustomRatingBar.class.getSimpleName();
 
     @Nullable
     private OnStarChangeListener mListener;
@@ -115,6 +120,21 @@ public class CustomRatingBar extends FrameLayout {
             starInactive[i].setColorFilter(ContextCompat.getColor(getContext(),R.color.red100));
             starActive[i].setVisibility(INVISIBLE);
         }
+    }
+
+    public void setStarSize(Context context, int size) {
+        for (int i = 0; i < starActive.length; i++) {
+            starActive[i].getLayoutParams().height = getPixels(context, size);
+            starActive[i].getLayoutParams().width = getPixels(context, size);
+            starInactive[i].getLayoutParams().height = getPixels(context, size);
+            starInactive[i].getLayoutParams().width = getPixels(context, size);
+        }
+    }
+
+    public static int getPixels(@NonNull Context context, int dp) {
+        DisplayMetrics metrics = new DisplayMetrics();
+        ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(metrics);
+        return (int) (dp * metrics.density);
     }
 
     public interface OnStarChangeListener {

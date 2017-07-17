@@ -1,5 +1,29 @@
 apply plugin: 'com.android.library'
 
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'custom-rating-bar'
+
+    publishedGroupId = 'com.github.andrestejero'
+    libraryName = 'android-custom-rating-bar'
+    artifact = 'custom-rating-bar'
+
+    libraryDescription = 'Rating Bar animated for Android'
+
+    siteUrl = 'https://github.com/andrestejero/android-custom-rating-bar'
+    gitUrl = 'https://github.com/andrestejero/android-custom-rating-bar.git'
+
+    libraryVersion = '1.0.1'
+
+    developerId = 'andrestejero'
+    developerName = 'Andres Tejero'
+    developerEmail = 'andrestejero@gmail.com'
+
+    licenseName = 'MIT'
+    licenseUrl = 'https://opensource.org/licenses/MIT'
+    allLicenses = ["MIT"]
+}
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
@@ -8,7 +32,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 25
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.1"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
@@ -23,3 +47,6 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:25.3.1'
 }
+
+apply from: '../install.gradle'
+apply from: '../bintray.gradle'

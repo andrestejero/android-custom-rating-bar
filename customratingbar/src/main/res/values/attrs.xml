@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomRatingBarView">
+        <attr name="stars" format="integer" />
+        <attr name="starSize" format="dimension" />
+    </declare-styleable>
+</resources>

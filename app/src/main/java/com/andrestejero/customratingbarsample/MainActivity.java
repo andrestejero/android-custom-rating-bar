@@ -19,8 +19,8 @@ public class MainActivity extends AppCompatActivity {
         // Example
         TextView question = (TextView) findViewById(R.id.question);
         question.setText("¿Qué tan fácil e intuitivo te resultó el uso de la APP?");
+
         CustomRatingBar rating = (CustomRatingBar) findViewById(R.id.rating);
-        rating.setStarSize(this, 24);
         rating.setOnStarChangeListener(new CustomRatingBar.OnStarChangeListener() {
             @Override
             public void onStarChange(int stars) {

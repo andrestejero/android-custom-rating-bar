@@ -3,14 +3,14 @@ package com.andrestejero.customratingbar;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.os.Build;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
@@ -23,64 +23,63 @@ public class CustomRatingBar extends FrameLayout {
     @Nullable
     private OnStarChangeListener mListener;
 
-    private ImageView[] starInactive;
-    private View[] starActive;
+    private ImageView[] mStarsInactive;
+    private View[] mStarsActive;
 
     private Animation mBounceAnimation;
 
-    int mStars;
+    private int mStarSelected;
 
     public CustomRatingBar(Context context) {
         super(context);
-        init(context);
+        init(context, null);
     }
 
     public CustomRatingBar(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        init(context, attrs);
     }
 
     public CustomRatingBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context);
+        init(context, attrs);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public CustomRatingBar(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        init(context);
+        init(context, attrs);
     }
 
-    private void init(Context context) {
-        mStars = 0;
+    private void init(Context context, @Nullable AttributeSet attrs) {
         inflate(context, R.layout.custom_rating_bar, this);
-        View star1 = findViewById(R.id.star1);
-        View star2 = findViewById(R.id.star2);
-        View star3 = findViewById(R.id.star3);
-        View star4 = findViewById(R.id.star4);
-        View star5 = findViewById(R.id.star5);
 
-        starInactive = new ImageView[]{
-                (ImageView) findViewById(R.id.starInactive1),
-                (ImageView) findViewById(R.id.starInactive2),
-                (ImageView) findViewById(R.id.starInactive3),
-                (ImageView) findViewById(R.id.starInactive4),
-                (ImageView) findViewById(R.id.starInactive5)
-        };
+        mStarSelected = 0;
+        int starSize = (int) getResources().getDimension(R.dimen.star);
+        int stars = 5;
 
-        starActive = new View[]{
-                findViewById(R.id.starActive1),
-                findViewById(R.id.starActive2),
-                findViewById(R.id.starActive3),
-                findViewById(R.id.starActive4),
-                findViewById(R.id.starActive5)
-        };
+        if (attrs != null) {
+            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CustomRatingBarView, 0, 0);
+            stars = a.getInt(R.styleable.CustomRatingBarView_stars, stars);
+            starSize = a.getDimensionPixelSize(R.styleable.CustomRatingBarView_starSize, starSize);
+            a.recycle();
+        }
 
-        star1.setOnClickListener(onClick(1));
-        star2.setOnClickListener(onClick(2));
-        star3.setOnClickListener(onClick(3));
-        star4.setOnClickListener(onClick(4));
-        star5.setOnClickListener(onClick(5));
+        ViewGroup root = (ViewGroup) findViewById(R.id.root);
+
+        View[] starContainer = new View[stars];
+        mStarsInactive = new ImageView[stars];
+        mStarsActive = new View[stars];
+
+        for (int i = 0; i < stars; i++) {
+            View starLayout = LayoutInflater.from(context).inflate(R.layout.custom_rating_bar_item, null);
+            starContainer[i] = starLayout.findViewById(R.id.starContainer);
+            starContainer[i].setOnClickListener(onClick(i + 1));
+            mStarsInactive[i] = (ImageView) starLayout.findViewById(R.id.starInactive);
+            mStarsActive[i] = starLayout.findViewById(R.id.starActive);
+            setStarSize(i, starSize);
+            root.addView(starLayout);
+        }
 
         mBounceAnimation = AnimationUtils.loadAnimation(context, R.anim.bounce);
         refreshStars();
@@ -90,51 +89,43 @@ public class CustomRatingBar extends FrameLayout {
         return new OnClickListener() {
             @Override
             public void onClick(View view) {
-                mStars = position;
+                mStarSelected = position;
                 refreshStars();
                 if (mListener != null) {
-                    mListener.onStarChange(mStars);
+                    mListener.onStarChange(mStarSelected);
                 }
             }
         };
     }
 
     private void refreshStars() {
-        for (int i = 0; i < starActive.length; i++) {
-            starActive[i].clearAnimation();
-            if (i < mStars) {
-                starInactive[i].setVisibility(INVISIBLE);
-                starActive[i].setVisibility(VISIBLE);
-                starActive[i].startAnimation(mBounceAnimation);
+        for (int i = 0; i < mStarsActive.length; i++) {
+            mStarsActive[i].clearAnimation();
+            if (i < mStarSelected) {
+                mStarsInactive[i].setVisibility(INVISIBLE);
+                mStarsActive[i].setVisibility(VISIBLE);
+                mStarsActive[i].startAnimation(mBounceAnimation);
             } else {
-                starInactive[i].setVisibility(VISIBLE);
-                starActive[i].setVisibility(INVISIBLE);
+                mStarsInactive[i].setVisibility(VISIBLE);
+                mStarsActive[i].setVisibility(INVISIBLE);
             }
-            starInactive[i].setColorFilter(ContextCompat.getColor(getContext(),R.color.grey20));
+            mStarsInactive[i].setColorFilter(ContextCompat.getColor(getContext(), R.color.grey20));
         }
     }
 
     public void showErrorStars() {
-        for (int i = 0; i < starActive.length; i++) {
-            starInactive[i].setVisibility(VISIBLE);
-            starInactive[i].setColorFilter(ContextCompat.getColor(getContext(),R.color.red100));
-            starActive[i].setVisibility(INVISIBLE);
+        for (int i = 0; i < mStarsActive.length; i++) {
+            mStarsInactive[i].setVisibility(VISIBLE);
+            mStarsInactive[i].setColorFilter(ContextCompat.getColor(getContext(), R.color.red100));
+            mStarsActive[i].setVisibility(INVISIBLE);
         }
     }
 
-    public void setStarSize(Context context, int size) {
-        for (int i = 0; i < starActive.length; i++) {
-            starActive[i].getLayoutParams().height = getPixels(context, size);
-            starActive[i].getLayoutParams().width = getPixels(context, size);
-            starInactive[i].getLayoutParams().height = getPixels(context, size);
-            starInactive[i].getLayoutParams().width = getPixels(context, size);
-        }
-    }
-
-    public static int getPixels(@NonNull Context context, int dp) {
-        DisplayMetrics metrics = new DisplayMetrics();
-        ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(metrics);
-        return (int) (dp * metrics.density);
+    private void setStarSize(int i, int size) {
+        mStarsActive[i].getLayoutParams().height = size;
+        mStarsActive[i].getLayoutParams().width = size;
+        mStarsInactive[i].getLayoutParams().height = size;
+        mStarsInactive[i].getLayoutParams().width = size;
     }
 
     public interface OnStarChangeListener {

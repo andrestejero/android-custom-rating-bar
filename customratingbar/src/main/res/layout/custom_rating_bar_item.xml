@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/starContainer"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:clipToPadding="false"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/starInactive"
+        android:layout_width="@dimen/star"
+        android:layout_height="@dimen/star"
+        android:contentDescription="@string/content_description"
+        android:tint="@color/grey20"
+        app:srcCompat="@drawable/ic_borderstar" />
+
+    <ImageView
+        android:id="@+id/starActive"
+        android:layout_width="@dimen/star"
+        android:layout_height="@dimen/star"
+        android:contentDescription="@string/content_description"
+        android:tint="@color/yellow60"
+        app:srcCompat="@drawable/ic_fullstar" />
+
+</FrameLayout>

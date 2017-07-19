@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -13,34 +13,77 @@
         android:orientation="horizontal">
 
         <View
-            android:id="@+id/questionSelector"
             android:layout_width="8dp"
             android:layout_height="32dp"
             android:background="@color/grey20" />
 
         <TextView
-            android:id="@+id/question"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginLeft="26dp"
             android:layout_marginRight="16dp"
             android:layout_marginStart="26dp"
-            android:textSize="16sp"
-            tools:text="¿Qué tan fácil e intuitivo te resultó el uso de la APP?" />
+            android:text="@string/question1"
+            android:textSize="16sp" />
 
     </LinearLayout>
 
     <com.andrestejero.customratingbar.CustomRatingBar
-        android:id="@+id/rating"
+        android:id="@+id/rating1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="4dp" />
+
+    <Button
+        android:id="@+id/buttonContinue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@string/button"
+        android:textColor="@color/white00" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey20" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="8dp"
+            android:layout_height="32dp"
+            android:background="@color/grey20" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="26dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="26dp"
+            android:text="@string/question2"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <com.andrestejero.customratingbar.CustomRatingBar
+        android:id="@+id/rating2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:layout_marginLeft="32dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="4dp"
-        app:starActiveColor="@color/colorAccent"
-        app:starSize="12dp"
-        app:stars="8" />
+        app:starActiveColor="@color/colorPrimary"
+        app:starSize="26dp"
+        app:stars="7" />
 
 </LinearLayout>

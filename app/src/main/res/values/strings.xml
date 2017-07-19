@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">CustomRatingBarSample</string>
+    <string name="button">Continue</string>
+    <string name="question1">How likely would you be to use one of our apps if it was available on your device?</string>
+    <string name="question2">How easy is it to find the information you are looking for in our apps?</string>
+    <string name="error">Error - This question requires an answer</string>
+    <string name="result">You voted: %1$d stars</string>
 </resources>

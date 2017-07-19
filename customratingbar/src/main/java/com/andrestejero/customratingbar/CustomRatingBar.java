@@ -5,7 +5,6 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
@@ -16,8 +15,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-
-import java.util.List;
 
 public class CustomRatingBar extends FrameLayout {
 
@@ -120,12 +117,15 @@ public class CustomRatingBar extends FrameLayout {
         }
     }
 
-    public void setColorStarActive(@NonNull List<Integer> colors) {
-        for (int i = 0; i < mStarsActive.length; i++) {
-            if (colors.size() > i) {
-                mStarsActive[i].setColorFilter(ContextCompat.getColor(getContext(), colors.get(i)));
-            }
+    public void setColorStarActive(int... colors) {
+        int min = min(colors.length, mStarsActive.length);
+        for (int i = 0; i < min; i++) {
+            mStarsActive[i].setColorFilter(ContextCompat.getColor(getContext(), colors[i]));
         }
+    }
+
+    private int min(int a, int b) {
+        return a < b ? a : b;
     }
 
     public void showErrorStars() {

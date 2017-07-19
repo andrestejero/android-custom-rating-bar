@@ -8,9 +8,6 @@ import android.widget.Button;
 
 import com.andrestejero.customratingbar.CustomRatingBar;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MainActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
@@ -23,15 +20,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mRatingBar1 = (CustomRatingBar) findViewById(R.id.rating1);
-
-        List<Integer> colors = new ArrayList<>();
-        colors.add(R.color.yellow20);
-        colors.add(R.color.yellow40);
-        colors.add(R.color.yellow60);
-        colors.add(R.color.yellow80);
-        colors.add(R.color.yellow100);
-        mRatingBar1.setColorStarActive(colors);
-
+        mRatingBar1.setColorStarActive(R.color.yellow20, R.color.yellow40, R.color.yellow60, R.color.yellow80, R.color.yellow100);
         mRatingBar1.setOnStarChangeListener(new CustomRatingBar.OnStarChangeListener() {
             @Override
             public void onStarChange(int stars) {

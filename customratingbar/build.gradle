@@ -13,7 +13,7 @@ ext {
     siteUrl = 'https://github.com/andrestejero/android-custom-rating-bar'
     gitUrl = 'https://github.com/andrestejero/android-custom-rating-bar.git'
 
-    libraryVersion = '1.0.0'
+    libraryVersion = '1.1.0'
 
     developerId = 'andrestejero'
     developerName = 'Andres Tejero'
@@ -32,7 +32,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 25
         versionCode 1
-        versionName "1.0.0"
+        versionName "1.1.0"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {

@@ -21,7 +21,7 @@
         android:layout_width="@dimen/star"
         android:layout_height="@dimen/star"
         android:contentDescription="@string/content_description"
-        android:tint="@color/yellow60"
+        android:tint="@color/yellow100"
         app:srcCompat="@drawable/ic_fullstar" />
 
 </FrameLayout>

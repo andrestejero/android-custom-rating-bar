@@ -3,5 +3,6 @@
     <declare-styleable name="CustomRatingBarView">
         <attr name="stars" format="integer" />
         <attr name="starSize" format="dimension" />
+        <attr name="starActiveColor" format="color" />
     </declare-styleable>
 </resources>

@@ -39,6 +39,8 @@
         android:layout_marginLeft="32dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="4dp"
-        app:stars="10" />
+        app:starActiveColor="@color/colorAccent"
+        app:starSize="12dp"
+        app:stars="8" />
 
 </LinearLayout>

@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
@@ -16,15 +17,18 @@ import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import java.util.List;
+
 public class CustomRatingBar extends FrameLayout {
 
     private static final String LOG_TAG = CustomRatingBar.class.getSimpleName();
+    private static final int DEFAULT_STARS = 5;
 
     @Nullable
     private OnStarChangeListener mListener;
 
     private ImageView[] mStarsInactive;
-    private View[] mStarsActive;
+    private ImageView[] mStarsActive;
 
     private Animation mBounceAnimation;
 
@@ -56,12 +60,14 @@ public class CustomRatingBar extends FrameLayout {
 
         mStarSelected = 0;
         int starSize = (int) getResources().getDimension(R.dimen.star);
-        int stars = 5;
+        int stars = DEFAULT_STARS;
+        int starActiveColor = ContextCompat.getColor(context, R.color.yellow100);
 
         if (attrs != null) {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CustomRatingBarView, 0, 0);
             stars = a.getInt(R.styleable.CustomRatingBarView_stars, stars);
             starSize = a.getDimensionPixelSize(R.styleable.CustomRatingBarView_starSize, starSize);
+            starActiveColor = a.getInt(R.styleable.CustomRatingBarView_starActiveColor, starActiveColor);
             a.recycle();
         }
 
@@ -69,15 +75,16 @@ public class CustomRatingBar extends FrameLayout {
 
         View[] starContainer = new View[stars];
         mStarsInactive = new ImageView[stars];
-        mStarsActive = new View[stars];
+        mStarsActive = new ImageView[stars];
 
         for (int i = 0; i < stars; i++) {
             View starLayout = LayoutInflater.from(context).inflate(R.layout.custom_rating_bar_item, null);
             starContainer[i] = starLayout.findViewById(R.id.starContainer);
             starContainer[i].setOnClickListener(onClick(i + 1));
             mStarsInactive[i] = (ImageView) starLayout.findViewById(R.id.starInactive);
-            mStarsActive[i] = starLayout.findViewById(R.id.starActive);
+            mStarsActive[i] = (ImageView) starLayout.findViewById(R.id.starActive);
             setStarSize(i, starSize);
+            setStarActiveColor(i, starActiveColor);
             root.addView(starLayout);
         }
 
@@ -113,6 +120,14 @@ public class CustomRatingBar extends FrameLayout {
         }
     }
 
+    public void setColorStarActive(@NonNull List<Integer> colors) {
+        for (int i = 0; i < mStarsActive.length; i++) {
+            if (colors.size() > i) {
+                mStarsActive[i].setColorFilter(ContextCompat.getColor(getContext(), colors.get(i)));
+            }
+        }
+    }
+
     public void showErrorStars() {
         for (int i = 0; i < mStarsActive.length; i++) {
             mStarsInactive[i].setVisibility(VISIBLE);
@@ -126,6 +141,10 @@ public class CustomRatingBar extends FrameLayout {
         mStarsActive[i].getLayoutParams().width = size;
         mStarsInactive[i].getLayoutParams().height = size;
         mStarsInactive[i].getLayoutParams().width = size;
+    }
+
+    private void setStarActiveColor(int i, int color) {
+        mStarsActive[i].setColorFilter(color);
     }
 
     public interface OnStarChangeListener {
